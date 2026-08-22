@@ -140,11 +140,11 @@ icon= "spinner"
                         for chunk in api_stream:
                             if chunk.choices and chunk.choices[0].delta.content:
                                 yield chunk.choices[0].delta.content
-                    except Exception as e:
-                        if "429" in str(e) or "rate_limit" in str(e).lower():
-                            st.error("Too many requests! Please try again after 24 Hours.")
-                        else:
-                            st.error(f"An error occurred: {e}")
+                except Exception as e:
+                    if "429" in str(e) or "rate_limit" in str(e).lower():
+                        st.error("Too many requests! Please try again after 24 Hours.")
+                    else:
+                        st.error(f"An error occurred: {e}")
 
                     response = st.write_stream(clean_stream(stream))
                     
