@@ -152,7 +152,8 @@ if st.session_state.feedback_shown:
             model="qwen/qwen3.6-27b",
             messages=[
                 {"role": "system", "content": """You are a helpful tool that provides feedback on an interviewee performance.
-                Before the Feedback give a score of 1 to 10.
+                Start your response with a polite opening line: "Thank you so much! Here is your feedback:"
+                Before the Feedback give a score of 1 to 10
                 Follow this format:
                 Overal Score: //Your score
                 Feedback: //Here you put your feedback
