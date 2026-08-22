@@ -114,6 +114,17 @@ icon= "spinner"
             st.session_state.messages.append({"role":"user","content":prompt})
             with st.chat_message("user"):
                 st.markdown(prompt)
+            # Allow assistant to respond up to the 5th turn (giving the final wrap-up message)
+            if st.session_state.user_message_count < 5:
+                with st.chat_message("assistant"):
+                    try:
+                        # If this is the 5th user message, instruct the system to wrap up
+                        current_messages = list(st.session_state.messages)
+                        if st.session_state.user_message_count == 4:
+                            current_messages.append({
+                                "role": "system", 
+                                "content": "The interview is now over. Write a final closing message saying: 'Thank you for the interview! Click below to get your feedback.'"
+                            })
             if st.session_state.user_message_count < 4:
                 with st.chat_message("assistant"):
                     stream = client.chat.completions.create(
@@ -129,6 +140,11 @@ icon= "spinner"
                         for chunk in api_stream:
                             if chunk.choices and chunk.choices[0].delta.content:
                                 yield chunk.choices[0].delta.content
+                    except Exception as e:
+                        if "429" in str(e) or "rate_limit" in str(e).lower():
+                            st.error("Too many requests! Please try again after 24 Hours.")
+                        else:
+                            st.error(f"An error occurred: {e}")
 
                     response = st.write_stream(clean_stream(stream))
                     
