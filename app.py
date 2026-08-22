@@ -125,30 +125,30 @@ icon= "spinner"
                                 "role": "system", 
                                 "content": "The interview is now over. Write a final closing message saying: 'Thank you for the interview! Click below to get your feedback.'"
                             })
-            if st.session_state.user_message_count < 4:
-                with st.chat_message("assistant"):
-                    stream = client.chat.completions.create(
-                        model = st.session_state["groq_model"],
-                        messages=[{
-                            "role":m["role"],"content":m["content"]
-                        } for m in st.session_state.messages
-                        ],
-                        stream=True,
-                        reasoning_format="hidden"
-                    )
-                    def clean_stream(api_stream):
-                        for chunk in api_stream:
-                            if chunk.choices and chunk.choices[0].delta.content:
-                                yield chunk.choices[0].delta.content
-                except Exception as e:
-                    if "429" in str(e) or "rate_limit" in str(e).lower():
-                        st.error("Too many requests! Please try again after 24 Hours.")
-                    else:
-                        st.error(f"An error occurred: {e}")
+                        if st.session_state.user_message_count < 4:
+                            with st.chat_message("assistant"):
+                                stream = client.chat.completions.create(
+                                    model = st.session_state["groq_model"],
+                                    messages=[{
+                                        "role":m["role"],"content":m["content"]
+                                    } for m in st.session_state.messages
+                                    ],
+                                    stream=True,
+                                    reasoning_format="hidden"
+                                )
+                        def clean_stream(api_stream):
+                            for chunk in api_stream:
+                                if chunk.choices and chunk.choices[0].delta.content:
+                                    yield chunk.choices[0].delta.content
+                    except Exception as e:
+                        if "429" in str(e) or "rate_limit" in str(e).lower():
+                            st.error("Too many requests! Please try again after 24 Hours.")
+                        else:
+                            st.error(f"An error occurred: {e}")
 
-                    response = st.write_stream(clean_stream(stream))
+                        response = st.write_stream(clean_stream(stream))
                     
-                st.session_state.messages.append({"role": "assistant", "content": response})
+                        st.session_state.messages.append({"role": "assistant", "content": response})
             st.session_state.user_message_count += 1
     if st.session_state.user_message_count >=5:
          st.session_state.chat_complete = True
