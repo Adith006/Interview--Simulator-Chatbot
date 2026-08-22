@@ -3,6 +3,9 @@ from groq import Groq
 from streamlit_js_eval import streamlit_js_eval
 st.set_page_config(page_title="Streamlit Chat",page_icon="💬")
 st.title("Interview Simulator Chatbot")
+@st.cache_resource
+def get_groq_client(api_key):
+    return Groq(api_key=st.secrets["api_key"])
 
 if "setup_complete" not in st.session_state:
     st.session_state.setup_complete = False
@@ -83,7 +86,7 @@ Start by introducing yourself
 icon= "spinner"
     )
 
-    client = Groq(api_key=st.secrets["api_key"])
+    client = get_groq_client(api_key=st.secrets["api_key"])
 
     if "groq_model" not in st.session_state:
         st.session_state["groq_model"] = "qwen/qwen3.6-27b"
