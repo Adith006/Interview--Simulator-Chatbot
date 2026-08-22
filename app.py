@@ -40,7 +40,7 @@ if not st.session_state.setup_complete:
     #st.write(f"**Your Experience**: {st.session_state['experience']}")
     #st.write(f"**Your Skills**: { st.session_state['skills']}")
 
-    st.subheader('Company And Position',divider = 'rainbow')
+    st.subheader(' Target Company And Position',divider = 'rainbow')
     if "level" not in st.session_state:
             st.session_state["level"] = "junior"
     if "position" not in st.session_state:
