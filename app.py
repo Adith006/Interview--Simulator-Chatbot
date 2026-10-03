@@ -89,7 +89,7 @@ icon= "spinner"
     client = get_groq_client(api_key=st.secrets["api_key"])
 
     if "groq_model" not in st.session_state:
-        st.session_state["groq_model"] = "qwen/qwen3.6-27b"
+        st.session_state["groq_model"] = "openai/gpt-oss-20b"
 
     if not st.session_state.messages:
         st.session_state.messages= [
