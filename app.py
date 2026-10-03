@@ -103,6 +103,7 @@ icon= "spinner"
                        "CRITICAL RULE: Always ask **only one question at a time**. "
                         "Wait for the candidate's response before asking the next question. "
                         "Do not list multiple questions in a single message."
+                        "Dont go off-topic reply with please answer to questions"
                   )
              }
         ]
@@ -152,7 +153,7 @@ if st.session_state.feedback_shown:
     feedback_client = Groq(api_key=st.secrets["api_key"])
 
     feedback_completion = feedback_client.chat.completions.create(
-            model="qwen/qwen3.6-27b",
+            model="openai/gpt-oss-120b",
             messages=[
                 {"role": "system", "content": """You are a helpful tool that provides feedback on an interviewee performance.
                 Before the Feedback give a score of 1 to 10.
