@@ -103,7 +103,7 @@ icon= "spinner"
                        "CRITICAL RULE: Always ask **only one question at a time**. "
                         "Wait for the candidate's response before asking the next question. "
                         "Do not list multiple questions in a single message."
-                        "Dont go off-topic reply with please answer to questions"
+                        "Dont go off-topic or answer questions keep it about only interview reply with 'please answer to questions'"
                   )
              }
         ]
